@@ -1,79 +1,46 @@
 'use strict';
 
-/** Массив в объектами фильтров */
-const filters = [
-  {
-    name: `all`,
-    count: 15,
-    checked: true,
-    disabled: false
-  },
-  {
-    name: `overdue`,
-    count: 0,
-    checked: false,
-    disabled: true
-  },
-  {
-    name: `today`,
-    count: 0,
-    checked: false,
-    disabled: true
-  },
-  {
-    name: `favorites`,
-    count: 7,
-    checked: false,
-    disabled: false
-  },
-  {
-    name: `repeating`,
-    count: 2,
-    checked: false,
-    disabled: false
-  },
-  {
-    name: `tags`,
-    count: 6,
-    checked: false,
-    disabled: false
-  },
-  {
-    name: `archive`,
-    count: 115,
-    checked: false,
-    disabled: false
-  }
-];
+/** Максимальное кол-во задач в фильтре */
+const MAX_FILTER__COUNT = 100;
+
+/** Массив в именами фильтров */
+const filterNames = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
+
+/** Генерирует рандомное число
+ * @return {number}- возвращает случайное число
+ * @param {number} max - максимум случайного числа
+ * */
+const getRandomNumber = (max) => Math.floor(Math.random() * max);
 
 /**
  * Создаёт шаблон фильтра.
  * @return {string} - Возвращает строку шаблона
- * @param {object} filter - Объект фильтра.
+ * @param {string} filterName - Имя фильтра.
  */
-const createFilterTemplate = (filter) => {
+const createFilterTemplate = (filterName) => {
+  const randomFilterCount = getRandomNumber(MAX_FILTER__COUNT);
   return `<input
       type="radio"
-      id="filter__${filter.name}"
+      id="filter__${filterName}"
       class="filter__input visually-hidden"
       name="filter"
-      ${filter.checked ? `checked` : ``}
-      ${filter.disabled ? `disabled` : ``}
+      ${filterName === `all` ? `checked` : ``}
+      ${randomFilterCount === 0 ? `disabled` : ``}
     />
     <label for="filter__all" class="filter__label">
-    ${filter.name} <span class="filter__all-count">${filter.count}</span></label>`;
+    ${filterName} <span class="filter__all-count">${randomFilterCount}</span></label>`;
 };
 
 /**
  * Функция рендера фильтров
- * @param {array} filtersArray - массив с фильтрами
+ * @param {array} array - массив с именами фильтров
  */
-const renderFilters = (filtersArray) => {
+const renderFilters = (array) => {
   const mainFilter = document.querySelector(`.main__filter`);
-  filtersArray.forEach(function (item) {
-    mainFilter.innerHTML += createFilterTemplate(item);
+  array.forEach(function (name) {
+    mainFilter.innerHTML += createFilterTemplate(name);
   });
 };
 
 /** Редерит фильтры */
-renderFilters(filters);
+renderFilters(filterNames);
