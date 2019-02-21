@@ -71,7 +71,7 @@ const createFilterTemplate = (filter) => {
 const renderFilters = (filtersArray) => {
   const mainFilter = document.querySelector(`.main__filter`);
   filtersArray.forEach(function (item) {
-    mainFilter.innerHTML += createFilterTemplate(item)
+    mainFilter.innerHTML += createFilterTemplate(item);
   });
 };
 
