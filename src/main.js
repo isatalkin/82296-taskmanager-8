@@ -19,14 +19,14 @@ const Numbers = {
  * @constant
  * @type {array}
 */
-const filterNames = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
+const FILTER_NAMES = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 
 /**
  * Массив с цветами карточек
  * @constant
  * @type {array}
 */
-const cardColors = [`black`, `blue`, `yellow`, `pink`];
+const CARD_COLORS = [`black`, `blue`, `yellow`, `pink`];
 
 /** Генератор случайного числа
  * @param {number} max - максимум случайного числа
@@ -69,7 +69,7 @@ const renderFilters = (array) => {
  * @return {string}
  */
 const createCardMarkup = () => {
-  return `<article class="card card--${cardColors[getRandomNumber(cardColors.length - 1)]}">
+  return `<article class="card card--${CARD_COLORS[getRandomNumber(CARD_COLORS.length - 1)]}">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -390,7 +390,7 @@ const toggleFilter = (evt) => {
   evt.target.checked = true;
 };
 
-renderFilters(filterNames);
+renderFilters(FILTER_NAMES);
 renderTasks(Numbers.DEFAULT_CARDS);
 
 const filter = document.querySelector(`.main__filter`);
