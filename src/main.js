@@ -1,42 +1,52 @@
 'use strict';
 
-/** Перечисление используемых констант
- * MAX_RANDOM_COUNT - максимальное кол-во задач в фильтре.
- * MAX_RANDOM_CARDS - максимальное кол-во карточек для отрисовки на доске при переключении фильтров.
- * DEFAULT_CARDS - кол-во карточек для изначальной отрисовки на доске
+/**
+ * Перечисление используемых констант.
+ * @readonly
+ * @enum {number}
  */
 const Numbers = {
+  /** Максимальное кол-во задач в фильтре. */
   MAX_RANDOM_COUNT: 100,
+  /** Максимальное кол-во карточек для отрисовки на доске при переключении фильтров. */
   MAX_RANDOM_CARDS: 10,
+  /** Кол-во карточек для изначальной отрисовки на доске */
   DEFAULT_CARDS: 7
 };
 
-/** Массив в именами фильтров */
+/** 
+ * Массив в именами фильтров
+ * @constant
+ * @type {array}
+*/
 const filterNames = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 
-/** Массив с цветами карточек */
+/**
+ * Массив с цветами карточек 
+ * @constant
+ * @type {array}
+*/
 const cardColors = [`black`, `blue`, `yellow`, `pink`];
 
 /** Генератор случайного числа
- * @return {number}- возвращает случайное число
  * @param {number} max - максимум случайного числа
+ * @return {number}- возвращает случайное число
  * */
 const getRandomNumber = (max) => Math.floor(Math.random() * max);
 
 /**
  * Создаёт шаблон фильтра.
- * @return {string} - Возвращает строку шаблона
  * @param {string} filterName - Имя фильтра.
+ * @return {string} - Возвращает строку шаблона
  */
 const createFilterTemplate = (filterName) => {
-  const randomFilterCount = getRandomNumber(Numbers.MAX_RANDOM_COUNT);
   return `<input
       type="radio"
       id="filter__${filterName}"
       class="filter__input visually-hidden"
       name="filter"
       ${filterName === `all` ? `checked` : ``}
-      ${randomFilterCount === 0 ? `disabled` : ``}
+      ${getRandomNumber(Numbers.MAX_RANDOM_COUNT) === 0 ? `disabled` : ``}
     />
     <label for="filter__${filterName}" class="filter__label">
     ${filterName} <span class="filter__all-count">${randomFilterCount}</span></label>`;
@@ -52,9 +62,6 @@ const renderFilters = (array) => {
     mainFilter.insertAdjacentHTML(`beforeend`, createFilterTemplate(name));
   });
 };
-
-/** Редерит фильтры */
-renderFilters(filterNames);
 
 /**
  * Создает шаблон карточки-задачи
@@ -366,9 +373,6 @@ const renderTasks = (number) => {
   }
 };
 
-/** Рендерит допополнительные карточки по умолчанию */
-renderTasks(Numbers.DEFAULT_CARDS);
-
 /** Удаляет все карточки с кардборда */
 const clearCardBoard = () => {
   while (cardBoard.lastElementChild) {
@@ -385,7 +389,9 @@ const toggleFilter = (evt) => {
   evt.target.checked = true;
 };
 
-/** Обработка события клика по фильтрам */
+renderFilters(filterNames);
+renderTasks(Numbers.DEFAULT_CARDS);
+
 const filter = document.querySelector(`.main__filter`);
 filter.onclick = (evt) => {
   if (evt.target.className === `filter__label` && !evt.target.previousElementSibling.disabled) {
