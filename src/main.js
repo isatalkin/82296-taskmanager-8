@@ -38,7 +38,7 @@ const createFilterTemplate = (filterName) => {
       ${filterName === `all` ? `checked` : ``}
       ${randomFilterCount === 0 ? `disabled` : ``}
     />
-    <label for="filter__all" class="filter__label">
+    <label for="filter__${filterName}" class="filter__label">
     ${filterName} <span class="filter__all-count">${randomFilterCount}</span></label>`;
 };
 
@@ -376,10 +376,20 @@ const clearCardBoard = () => {
   }
 };
 
-/** Функция ререндера карточек при смене фильтра */
+/** Переключение фильтра в состояние checked
+ * @param {object} evt - ивент клика мышкой
+ */
+const toggleFilter = (evt) => {
+  const mainFilter = document.querySelector(`.main__filter`);
+  mainFilter.querySelector(`input[type="radio"]:checked`).checked = false;
+  evt.target.checked = true;
+};
+
+/** Обработка события клика по фильтрам */
 const filter = document.querySelector(`.main__filter`);
 filter.onclick = (evt) => {
-  if (evt.target.className === `filter__label`) {
+  if (evt.target.className === `filter__label` && !evt.target.previousElementSibling.disabled) {
+    toggleFilter(evt);
     clearCardBoard();
     renderTasks(getRandomNumber(Numbers.MAX_RANDOM_CARDS));
   }
