@@ -14,7 +14,7 @@ const Numbers = {
   DEFAULT_CARDS: 7
 };
 
-/** 
+/**
  * Массив в именами фильтров
  * @constant
  * @type {array}
@@ -22,7 +22,7 @@ const Numbers = {
 const filterNames = [`all`, `overdue`, `today`, `favorites`, `repeating`, `tags`, `archive`];
 
 /**
- * Массив с цветами карточек 
+ * Массив с цветами карточек
  * @constant
  * @type {array}
 */
@@ -40,13 +40,14 @@ const getRandomNumber = (max) => Math.floor(Math.random() * max);
  * @return {string} - Возвращает строку шаблона
  */
 const createFilterTemplate = (filterName) => {
+  const randomFilterCount = getRandomNumber(Numbers.MAX_RANDOM_COUNT);
   return `<input
       type="radio"
       id="filter__${filterName}"
       class="filter__input visually-hidden"
       name="filter"
       ${filterName === `all` ? `checked` : ``}
-      ${getRandomNumber(Numbers.MAX_RANDOM_COUNT) === 0 ? `disabled` : ``}
+      ${randomFilterCount === 0 ? `disabled` : ``}
     />
     <label for="filter__${filterName}" class="filter__label">
     ${filterName} <span class="filter__all-count">${randomFilterCount}</span></label>`;
