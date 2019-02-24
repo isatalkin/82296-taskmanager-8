@@ -23,7 +23,7 @@ const Numbers = {
 const CARD_COLORS = [`black`, `blue`, `yellow`, `pink`];
 
 /**
- * Массив в именами фильтров
+ * Массив с именами фильтров
  * @constant
  * @type {array}
 */
